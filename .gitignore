@@ -60,3 +60,10 @@ ITalkerPush/web/ITalker/.idea/modules/ITalker_test.iml
 ITalkerPush/web/ITalker/.idea/vcs.xml
 ITalkerPush/web/ITalker/.idea/artifacts/Gradle___ITalker___ITalker_1_0_SNAPSHOT_war.xml
 ITalkerPush/web/ITalker/.idea/artifacts/Gradle___ITalker___ITalker_1_0_SNAPSHOT_war.xml
+
+# App
+*.iml
+ITalkerPush/app/ITalker/.gradle
+ITalkerPush/app/ITalker/local.properties
+ITalkerPush/app/ITalker/.idea/*
+/.idea/libraries
