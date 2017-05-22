@@ -30,6 +30,7 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
+    compile "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"
     compile "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintVersion"
     compile "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
