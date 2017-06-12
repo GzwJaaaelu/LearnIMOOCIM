@@ -123,6 +123,18 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAd
     }
 
     @Override
+    public void update(T data, ViewHolder<T> holder) {
+        //  得到当前 ViewHolder 的坐标
+        int pos = holder.getAdapterPosition();
+        //  坐标如果存在进行数据的移除与更新
+        if (pos >= 0) {
+            mDataList.remove(pos);
+            mDataList.add(pos, data);
+            notifyItemChanged(pos);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         if (mAdapterListener == null) {
             return;
@@ -156,6 +168,18 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAd
         void onItemLongClick(ViewHolder<T> viewHolder, T data);
     }
 
+    public abstract static class AdapterListenerImpl<T> implements AdapterListener<T> {
+        @Override
+        public void onItemClick(ViewHolder<T> viewHolder, T data) {
+
+        }
+
+        @Override
+        public void onItemLongClick(ViewHolder<T> viewHolder, T data) {
+            onItemClick(viewHolder, data);
+        }
+    }
+
     public static abstract class ViewHolder<T> extends RecyclerView.ViewHolder {
         protected T mData;
         private Unbinder mUnbinder;
@@ -163,6 +187,7 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAd
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this,itemView);
         }
 
         /**
