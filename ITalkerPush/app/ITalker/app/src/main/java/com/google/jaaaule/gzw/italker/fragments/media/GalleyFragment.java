@@ -78,7 +78,10 @@ public class GalleyFragment extends BottomSheetDialogFragment implements Gallery
         void onSelectedImage(String path);
     }
 
-    private static class TransStatusBottomSheetDialog extends BottomSheetDialog {
+    /**
+     * 为了解决顶部导航栏变黑
+     */
+    public static class TransStatusBottomSheetDialog extends BottomSheetDialog {
 
         public TransStatusBottomSheetDialog(@NonNull Context context) {
             super(context);

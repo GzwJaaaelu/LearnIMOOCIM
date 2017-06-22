@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.google.jaaaule.gzw.common.app.BaseFragment;
 import com.google.jaaaule.gzw.common.app.ITalkerApplication;
 import com.google.jaaaule.gzw.common.widget.PortraitView;
+import com.google.jaaaule.gzw.factory.Factory;
+import com.google.jaaaule.gzw.factory.net.UploadHelper;
 import com.google.jaaaule.gzw.italker.R;
 import com.google.jaaaule.gzw.italker.fragments.media.GalleyFragment;
 import com.yalantis.ucrop.UCrop;
@@ -25,6 +28,7 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class UpdateInfoFragment extends BaseFragment implements GalleyFragment.OnSelectedListener {
+    private static final String TAG = UpdateInfoFragment.class.getSimpleName();
     @BindView(R.id.pv_portrait)
     PortraitView mPortrait;
 
@@ -93,5 +97,15 @@ public class UpdateInfoFragment extends BaseFragment implements GalleyFragment.O
                 .asBitmap()
                 .centerCrop()
                 .into(mPortrait);
+
+        final String localPath = resultUri.getPath();
+        Log.e(TAG, localPath);
+        Factory.runOnAsync(new Runnable() {
+            @Override
+            public void run() {
+                String url = UploadHelper.uploadPortrait(localPath);
+                Log.e(TAG, url);
+            }
+        });
     }
 }

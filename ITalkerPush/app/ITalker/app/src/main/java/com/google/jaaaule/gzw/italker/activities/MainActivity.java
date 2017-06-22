@@ -1,5 +1,7 @@
-package com.google.jaaaule.gzw.italker;
+package com.google.jaaaule.gzw.italker.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -17,7 +19,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.google.jaaaule.gzw.common.app.BaseActivity;
 import com.google.jaaaule.gzw.common.widget.PortraitView;
-import com.google.jaaaule.gzw.italker.activities.AccountActivity;
+import com.google.jaaaule.gzw.italker.R;
 import com.google.jaaaule.gzw.italker.fragments.main.ActiveFragment;
 import com.google.jaaaule.gzw.italker.fragments.main.ContactFragment;
 import com.google.jaaaule.gzw.italker.fragments.main.GroupFragment;
@@ -48,6 +50,14 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.btn_action)
     FloatActionButton mActionBtn;
     private NavHelper<Integer> mNavHelper;
+
+    /**
+     * 启动 MainActivity
+     * @param context
+     */
+    public static void show(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
 
     @Override
     protected int getLayoutResId() {

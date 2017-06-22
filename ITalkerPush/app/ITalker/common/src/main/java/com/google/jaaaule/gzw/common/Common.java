@@ -5,4 +5,5 @@ package com.google.jaaaule.gzw.common;
  */
 
 public class Common {
+
 }
