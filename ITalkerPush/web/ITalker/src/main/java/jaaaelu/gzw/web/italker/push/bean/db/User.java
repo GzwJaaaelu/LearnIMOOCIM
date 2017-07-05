@@ -87,6 +87,15 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<UserFollow> followers = new HashSet<>();
 
+    //  自己所有创建的群
+    //  对应字段为 Group.ownerId
+    //  懒加载，加载用户时，不加载这个集合
+    @JoinColumn(name = "ownerId")
+    //  尽可能不加载具体数据，只访问 groups.size() 仅仅查询数量，不加载具体集合
+    //  只有当遍历集合的时候才加载具体的数据
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Group> groups = new HashSet<>();
+
     public String getId() {
         return id;
     }

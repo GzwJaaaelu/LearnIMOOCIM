@@ -1,6 +1,15 @@
 package jaaaelu.gzw.web.italker.push.service;
 
-import jaaaelu.gzw.web.italker.push.bean.User;
+import com.google.common.base.Strings;
+import jaaaelu.gzw.web.italker.push.bean.api.account.AccountRspModel;
+import jaaaelu.gzw.web.italker.push.bean.api.account.LoginModel;
+import jaaaelu.gzw.web.italker.push.bean.api.account.RegisterModel;
+import jaaaelu.gzw.web.italker.push.bean.api.base.ResponseModel;
+import jaaaelu.gzw.web.italker.push.bean.card.UserCard;
+import jaaaelu.gzw.web.italker.push.bean.db.User;
+import jaaaelu.gzw.web.italker.push.factory.UserFactory;
+import jaaaelu.gzw.web.italker.push.utils.Hib;
+import org.hibernate.Session;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,19 +21,141 @@ import javax.ws.rs.core.MediaType;
 @Path("/account")
 public class AccountService {
 
-    //  实际路径 127.0.0.1/api/account/login    并且是 GET 形式访问
-    @GET
-    @Path("/login")
-    public String get() {
-        return "Jaaaelu gets the login.";
+    /**
+     * 按照 Token 查询
+     *
+     * @param token
+     * @return
+     */
+    public static User findByToken(String token) {
+        return Hib.query(session -> (User) session.createQuery("from User where token = :inToken")
+                .setParameter("inToken", token)
+                .uniqueResult());
     }
+
+    /**
+     * 按照手机号查询
+     *
+     * @param phone
+     * @return
+     */
+    public static User findByPhone(String phone) {
+        return Hib.query(session -> (User) session.createQuery("from User where phone = :inPhone")
+                .setParameter("inPhone", phone)
+                .uniqueResult());
+    }
+
+    /**
+     * 按照姓名查询
+     *
+     * @param name
+     * @return
+     */
+    public static User findByName(String name) {
+        return Hib.query(session -> (User) session.createQuery("from User where name = :inName")
+                .setParameter("inName", name)
+                .uniqueResult());
+    }
+
+//    //  实际路径 127.0.0.1/api/account/login    并且是 GET 形式访问
+//    @GET
+//    @Path("/login")
+//    public String get() {
+//        return "Jaaaelu gets the login.";
+//    }
 
     @POST
     @Path("/login")
     //  接收 JSON 返回也是 JSON
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser() {
-        return new User("Jaaaelu", 2);
+    public ResponseModel<AccountRspModel> login(LoginModel login) {
+        if (LoginModel.check(login)) {
+            return ResponseModel.buildParameterError();
+        }
+        User user = UserFactory.login(login.getAccount(), login.getPassword());
+        if (user != null) {
+            if (!Strings.isNullOrEmpty(user.getPushId())) {
+                return bind(user, login.getPushId());
+            }
+            AccountRspModel rspModel = new AccountRspModel(user);
+            return ResponseModel.buildOk(rspModel);
+        } else {
+            return ResponseModel.buildLoginError();
+        }
+    }
+
+    @POST
+    @Path("/bind/{pushId}")
+    //  接收 JSON 返回也是 JSON
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    /**
+     * 从请求头中获取 token 字段
+     * pushId 从 Url 地址获取
+     */
+    public ResponseModel<AccountRspModel> bind(@HeaderParam("token") String token,
+                                               @PathParam("pushId") String pushId) {
+        if (Strings.isNullOrEmpty(token) ||
+                Strings.isNullOrEmpty(pushId)) {
+            return ResponseModel.buildParameterError();
+        }
+
+        User user = findByToken(token);
+        if (user != null) {
+            return bind(user, pushId);
+        } else {
+            //  Token 失效，无法绑定
+            return ResponseModel.buildAccountError();
+        }
+    }
+
+    @POST
+    @Path("/register")
+    //  接收 JSON 返回也是 JSON
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseModel<AccountRspModel> register(RegisterModel register) {
+        if (RegisterModel.check(register)) {
+            return ResponseModel.buildParameterError();
+        }
+        User user = findByPhone(register.getAccount().trim());
+
+        if (user != null) {
+            //  已有账户
+            return ResponseModel.buildHaveAccountError();
+        }
+        user = findByName(register.getName());
+        if (user != null) {
+            //  已有姓名
+            return ResponseModel.buildHaveNameError();
+        }
+
+        //  开始注册逻辑
+        user = UserFactory.register(register.getAccount(),
+                register.getPassword(),
+                register.getName());
+
+        if (user != null) {
+            //  如果携带 PushId
+            if (!Strings.isNullOrEmpty(user.getPushId())) {
+                return bind(user, register.getPushId());
+            }
+            AccountRspModel rspModel = new AccountRspModel(user);
+            return ResponseModel.buildOk(rspModel);
+        } else {
+            return ResponseModel.buildRegisterError();
+        }
+    }
+
+    private ResponseModel<AccountRspModel> bind(User user, String pushId) {
+        //  进行 PushId 绑定的操操作
+        user = UserFactory.bindPushId(user, pushId);
+        if (user != null) {
+            AccountRspModel rspModel = new AccountRspModel(user, true);
+            return ResponseModel.buildOk(rspModel);
+        }
+        //  绑定失败
+        return ResponseModel.buildServiceError();
     }
 }

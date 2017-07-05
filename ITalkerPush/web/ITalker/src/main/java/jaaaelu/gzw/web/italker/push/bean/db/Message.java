@@ -54,7 +54,7 @@ public class Message {
 
     //  这个字段静静只是为了对应 sender 的数据库字段 senderId
     //  所以不允许手动更新和插入
-    @Column(updatable = false, insertable = false)
+    @Column(nullable = false, updatable = false, insertable = false)
     private String senderId;
 
     //  接收者可为空
@@ -64,6 +64,14 @@ public class Message {
 
     @Column(updatable = false, insertable = false)
     private String receiveId;
+
+    //  一个群可以接收多个消息
+    @JoinColumn(name = "groupId")
+    @ManyToOne
+    private User group;
+
+    @Column(updatable = false, insertable = false)
+    private String groupId;
 
     //  定义为创建时间戳，在创建时就已经写入
     @CreationTimestamp
@@ -153,6 +161,22 @@ public class Message {
 
     public void setReceiveId(String receiveId) {
         this.receiveId = receiveId;
+    }
+
+    public User getGroup() {
+        return group;
+    }
+
+    public void setGroup(User group) {
+        this.group = group;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 }
 
