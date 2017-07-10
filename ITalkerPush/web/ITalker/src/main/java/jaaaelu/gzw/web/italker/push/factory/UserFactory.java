@@ -14,6 +14,43 @@ import java.util.UUID;
  */
 public class UserFactory {
 
+
+    /**
+     * 按照 Token 查询
+     *
+     * @param token
+     * @return
+     */
+    public static User findByToken(String token) {
+        return Hib.query(session -> (User) session.createQuery("from User where token = :inToken")
+                .setParameter("inToken", token)
+                .uniqueResult());
+    }
+
+    /**
+     * 按照手机号查询
+     *
+     * @param phone
+     * @return
+     */
+    public static User findByPhone(String phone) {
+        return Hib.query(session -> (User) session.createQuery("from User where phone = :inPhone")
+                .setParameter("inPhone", phone)
+                .uniqueResult());
+    }
+
+    /**
+     * 按照姓名查询
+     *
+     * @param name
+     * @return
+     */
+    public static User findByName(String name) {
+        return Hib.query(session -> (User) session.createQuery("from User where name = :inName")
+                .setParameter("inName", name)
+                .uniqueResult());
+    }
+
     /**
      * 用户注册
      * 注册的操作需要写入数据库，并返回数据库的 User
@@ -44,13 +81,15 @@ public class UserFactory {
      */
     private static User createuser(String account, String password, String name) {
         User user = new User();
-        password = encdoePassword(password);
         user.setName(name);
         user.setPassword(password);
         user.setPhone(account.trim());
 
         //  数据库存储
-        return Hib.query(session -> session.save(user));
+        return Hib.query(session -> {
+            session.save(user);
+            return user;
+        });
     }
 
     private static String encdoePassword(String password) {
@@ -72,10 +111,7 @@ public class UserFactory {
         String newToken = UUID.randomUUID().toString();
         newToken = TextUtil.encodeBase64(newToken);
         user.setToken(newToken);
-        return Hib.query(session -> {
-            session.saveOrUpdate(user);
-            return user;
-        });
+        return update(user);
     }
 
     /**
@@ -97,6 +133,21 @@ public class UserFactory {
         }
         return user;
     }
+
+
+    /**
+     * 更新用户到信息到数据库
+     *
+     * @param user
+     * @return
+     */
+    public static User update(User user) {
+        return Hib.query(session -> {
+            session.saveOrUpdate(user);
+            return user;
+        });
+    }
+
 
     /**
      * 给当前用户绑定 PushId
@@ -137,9 +188,6 @@ public class UserFactory {
             }
             user.setPushId(pushId);
         }
-        return Hib.query(session -> {
-            session.saveOrUpdate(user);
-            return user;
-        });
+        return update(user);
     }
 }

@@ -1,6 +1,7 @@
 package jaaaelu.gzw.web.italker.push;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import jaaaelu.gzw.web.italker.push.provider.AuthRequestFilter;
 import jaaaelu.gzw.web.italker.push.provider.GsonProvider;
 import jaaaelu.gzw.web.italker.push.service.AccountService;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -15,6 +16,8 @@ public class Application extends ResourceConfig{
     public Application() {
         //  注册 package
         packages(AccountService.class.getPackage().getName());
+        //  注册全局请求拦截器
+        register(AuthRequestFilter.class);
         //  注册逻辑处理的包名
         //  包下的
         //  packages("jaaaelu.gzw.web.italker.push.service");

@@ -8,8 +8,11 @@
     tools:context="com.google.jaaaule.gzw.italker.activities.AccountActivity">
 
     <ImageView
+        android:id="@+id/iv_account_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:foreground="@color/maskChatHeader"
+        android:scaleType="centerCrop"/>
 
     <FrameLayout
         android:id="@+id/fl_container"

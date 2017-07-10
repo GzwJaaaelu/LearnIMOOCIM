@@ -14,55 +14,16 @@ import org.hibernate.Session;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+import static jaaaelu.gzw.web.italker.push.factory.UserFactory.findByName;
+import static jaaaelu.gzw.web.italker.push.factory.UserFactory.findByPhone;
+import static jaaaelu.gzw.web.italker.push.factory.UserFactory.findByToken;
+
 /**
  * Created by admin on 2017/5/18.
  */
 //  实际路径 127.0.0.1/api/account/...
 @Path("/account")
-public class AccountService {
-
-    /**
-     * 按照 Token 查询
-     *
-     * @param token
-     * @return
-     */
-    public static User findByToken(String token) {
-        return Hib.query(session -> (User) session.createQuery("from User where token = :inToken")
-                .setParameter("inToken", token)
-                .uniqueResult());
-    }
-
-    /**
-     * 按照手机号查询
-     *
-     * @param phone
-     * @return
-     */
-    public static User findByPhone(String phone) {
-        return Hib.query(session -> (User) session.createQuery("from User where phone = :inPhone")
-                .setParameter("inPhone", phone)
-                .uniqueResult());
-    }
-
-    /**
-     * 按照姓名查询
-     *
-     * @param name
-     * @return
-     */
-    public static User findByName(String name) {
-        return Hib.query(session -> (User) session.createQuery("from User where name = :inName")
-                .setParameter("inName", name)
-                .uniqueResult());
-    }
-
-//    //  实际路径 127.0.0.1/api/account/login    并且是 GET 形式访问
-//    @GET
-//    @Path("/login")
-//    public String get() {
-//        return "Jaaaelu gets the login.";
-//    }
+public class AccountService extends BaseService {
 
     @POST
     @Path("/login")
@@ -101,13 +62,8 @@ public class AccountService {
             return ResponseModel.buildParameterError();
         }
 
-        User user = findByToken(token);
-        if (user != null) {
-            return bind(user, pushId);
-        } else {
-            //  Token 失效，无法绑定
-            return ResponseModel.buildAccountError();
-        }
+        User self = getSelf();
+        return bind(self, pushId);
     }
 
     @POST

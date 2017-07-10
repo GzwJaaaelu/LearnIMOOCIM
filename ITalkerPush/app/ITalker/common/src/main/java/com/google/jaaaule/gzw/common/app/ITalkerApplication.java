@@ -21,21 +21,6 @@ public class ITalkerApplication extends Application {
 
     private static Application sInstance;
 
-//    private ITalkerApplication() {
-//
-//    }
-
-//    public static ITalkerApplication getInstance() {
-//        if (sInstance == null) {
-//            synchronized (ITalkerApplication.class) {
-//                if (sInstance == null) {
-//                    sInstance = new ITalkerApplication();
-//                }
-//            }
-//        }
-//        return (ITalkerApplication) sInstance;
-//    }
-
     /**
      * 当前 App 的缓存地址
      *

@@ -29,6 +29,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class PermissionFragment extends BottomSheetDialogFragment implements EasyPermissions.PermissionCallbacks {
     //  权限回调表示
     private static final int RC = 0x0100;
+    private static OnPermissionCompleteListener sListener;
 
     public PermissionFragment() {
         // Required empty public constructor
@@ -144,16 +145,21 @@ public class PermissionFragment extends BottomSheetDialogFragment implements Eas
      * @param manager
      * @return 是否具有权限
      */
-    public static boolean haveAllPerm(Context context, FragmentManager manager) {
-        boolean haveAllPerm = haveNetworkPerm(context)
-                && haveReadPerm(context)
-                && haveWritePerm(context)
-                && haveRecordAudioPerm(context);
+    public static boolean haveAllPerm(Context context, FragmentManager manager, OnPermissionCompleteListener listener) {
+        boolean haveAllPerm = isHaveAllPerm(context);
+        sListener = listener;
         if (!haveAllPerm) {
             //  没有全部权限则显示当前弹框
             show(manager);
         }
         return haveAllPerm;
+    }
+
+    private static boolean isHaveAllPerm(Context context) {
+        return haveNetworkPerm(context)
+                && haveReadPerm(context)
+                && haveWritePerm(context)
+                && haveRecordAudioPerm(context);
     }
 
     /**
@@ -169,6 +175,10 @@ public class PermissionFragment extends BottomSheetDialogFragment implements Eas
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.RECORD_AUDIO
         };
+        if (isHaveAllPerm(getContext())) {
+            sListener.onPermissionComplete();
+            return;
+        }
         if (EasyPermissions.hasPermissions(getContext(), perms)) {
             ITalkerApplication.showToast(R.string.label_permission_ok);
             //  Fragment 中 getView() 拿到根布局（前提是在 onCreateView() 之后）
@@ -217,5 +227,10 @@ public class PermissionFragment extends BottomSheetDialogFragment implements Eas
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //  传递对应的参数，以及接收处理权限的处理者是 Fragment 自己
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    public interface OnPermissionCompleteListener {
+
+        void onPermissionComplete();
     }
 }
