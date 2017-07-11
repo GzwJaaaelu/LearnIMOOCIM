@@ -1,4 +1,4 @@
-package com.google.jaaaule.gzw.factory.model.api;
+package com.google.jaaaule.gzw.factory.model.api.account;
 
 /**
  * Created by admin on 2017/7/6.

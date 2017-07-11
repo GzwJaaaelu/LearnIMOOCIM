@@ -7,7 +7,7 @@ import com.google.jaaaule.gzw.common.Common;
 import com.google.jaaaule.gzw.factory.R;
 import com.google.jaaaule.gzw.factory.data.DataSource;
 import com.google.jaaaule.gzw.factory.data.helper.AccountHelper;
-import com.google.jaaaule.gzw.factory.model.api.RegisterModel;
+import com.google.jaaaule.gzw.factory.model.api.account.RegisterModel;
 import com.google.jaaaule.gzw.factory.model.db.User;
 import com.google.jaaaule.gzw.factory.presenter.BasePresenter;
 

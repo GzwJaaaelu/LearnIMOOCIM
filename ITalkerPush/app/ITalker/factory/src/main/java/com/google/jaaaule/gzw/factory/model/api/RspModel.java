@@ -1,4 +1,4 @@
-package com.google.jaaaule.gzw.factory;
+package com.google.jaaaule.gzw.factory.model.api;
 
 import java.util.Date;
 

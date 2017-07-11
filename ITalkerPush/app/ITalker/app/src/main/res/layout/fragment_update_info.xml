@@ -1,15 +1,131 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.google.jaaaule.gzw.italker.fragments.user.UpdateInfoFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/ll_complete_info"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.google.jaaaule.gzw.italker.fragments.user.UpdateInfoFragment">
 
-    <com.google.jaaaule.gzw.common.widget.PortraitView
-        android:id="@+id/pv_portrait"
-        android:layout_width="@dimen/portraitMaxSize"
-        android:layout_height="@dimen/portraitMaxSize"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:src="@color/colorAccent"/>
 
-</FrameLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_gradient_black"
+        android:paddingBottom="@dimen/len_32"
+        android:paddingTop="@dimen/statusBarSize">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:titleTextAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/label_update_info_tips"/>
+
+
+        <com.google.jaaaule.gzw.common.widget.PortraitView
+            android:id="@+id/pv_portrait"
+            android:layout_width="@dimen/len_92"
+            android:layout_height="@dimen/len_92"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_holder_add"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar2"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/label_portrait_tips"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pv_portrait"/>
+
+        <ImageView
+            android:id="@+id/iv_sex"
+            android:layout_width="@dimen/len_24"
+            android:layout_height="@dimen/len_24"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/sel_bg_sex"
+            android:contentDescription="@string/app_name"
+            android:padding="5dp"
+            android:src="@drawable/ic_sex_man"
+            android:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/pv_portrait"
+            app:layout_constraintRight_toRightOf="@+id/pv_portrait"/>
+
+        <net.qiujuer.genius.ui.widget.EditText
+            android:id="@+id/et_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:hint="@string/label_desc_tips"
+            android:inputType="textMultiLine"
+            android:maxLength="64"
+            android:maxLines="2"
+            android:textAlignment="center"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white_alpha_128"
+            android:textSize="@dimen/font_16"
+            app:gHintTitle="none"
+            app:gLineColor="@color/white_alpha_160"
+            app:gLineSize="1dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- 用来撑开 -->
+    <android.support.v4.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/len_28">
+
+        <net.qiujuer.genius.ui.widget.Button
+            android:id="@+id/btn_submit"
+            android:layout_width="@dimen/len_172"
+            android:layout_height="@dimen/len_44"
+            android:layout_gravity="center"
+            android:background="@drawable/sel_btn_bg_black_alpha_44"
+            android:text="@string/label_submit"
+            android:textColor="@color/white"
+            app:gTouchColor="@color/white_alpha_48"
+            app:gTouchCornerRadius="22dp"
+            app:gTouchEffect="ripple"/>
+
+        <net.qiujuer.genius.ui.widget.Loading
+            android:id="@+id/loading"
+            android:layout_width="@dimen/len_36"
+            android:layout_height="@dimen/len_36"
+            android:layout_gravity="center"
+            app:gAutoRun="false"
+            app:gBackgroundColor="@color/trans"
+            app:gForegroundColor="@color/white"
+            app:gForegroundLineSize="1dp"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

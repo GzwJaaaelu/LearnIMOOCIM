@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.google.jaaaule.gzw.factory.Factory;
-import com.google.jaaaule.gzw.factory.model.api.AccountRspModel;
+import com.google.jaaaule.gzw.factory.model.api.account.AccountRspModel;
 import com.google.jaaaule.gzw.factory.model.db.User;
 import com.google.jaaaule.gzw.factory.model.db.User_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -59,6 +59,9 @@ public class Account {
         sp.edit()
                 .putString(KEY_PUSH_ID, sPushId)
                 .putBoolean(KEY_IS_BIND, sIsBind)
+                .putString(KEY_TOKEN, sToken)
+                .putString(KEY_USER_ID, sUserId)
+                .putString(KEY_ACCOUNT, sAccount)
                 .apply();
     }
 
@@ -91,9 +94,16 @@ public class Account {
      *
      * @return
      */
-    public static boolean isComlete() {
-        //  TODO
-        return isLogin();
+    public static boolean isComplete() {
+        //  首先保证登陆成功
+        if (isLogin()) {
+            User self = getUser();
+            //  然后这些信息不为默认或空
+            return !TextUtils.isEmpty(self.getDesc())
+                    && !TextUtils.isEmpty(self.getPortrait())
+                    && self.getSex() != 0;
+        }
+        return false;
     }
 
     /**

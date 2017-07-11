@@ -1,14 +1,14 @@
 package com.google.jaaaule.gzw.factory.data.helper;
 
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.google.jaaaule.gzw.factory.Factory;
 import com.google.jaaaule.gzw.factory.R;
-import com.google.jaaaule.gzw.factory.RspModel;
 import com.google.jaaaule.gzw.factory.data.DataSource;
-import com.google.jaaaule.gzw.factory.model.api.AccountRspModel;
-import com.google.jaaaule.gzw.factory.model.api.LoginModel;
-import com.google.jaaaule.gzw.factory.model.api.RegisterModel;
+import com.google.jaaaule.gzw.factory.model.api.RspModel;
+import com.google.jaaaule.gzw.factory.model.api.account.AccountRspModel;
+import com.google.jaaaule.gzw.factory.model.api.account.LoginModel;
+import com.google.jaaaule.gzw.factory.model.api.account.RegisterModel;
 import com.google.jaaaule.gzw.factory.model.db.User;
 import com.google.jaaaule.gzw.factory.net.Network;
 import com.google.jaaaule.gzw.factory.net.RemoteService;
@@ -92,8 +92,7 @@ public class AccountHelper {
                     bindPushId(callback);
                 }
             } else {
-                //  TODO 错误处理
-                Log.e("onResponse", rspModel.getMessage());
+                Factory.decodeRepModel(rspModel, callback);
             }
         }
 

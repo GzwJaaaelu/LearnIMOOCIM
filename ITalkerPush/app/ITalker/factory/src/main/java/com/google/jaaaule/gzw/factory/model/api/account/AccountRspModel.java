@@ -1,4 +1,4 @@
-package com.google.jaaaule.gzw.factory.model.api;
+package com.google.jaaaule.gzw.factory.model.api.account;
 
 import com.google.jaaaule.gzw.factory.model.db.User;
 

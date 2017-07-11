@@ -2,6 +2,7 @@ package com.google.jaaaule.gzw.italker.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
@@ -19,6 +20,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.google.jaaaule.gzw.common.app.BaseActivity;
 import com.google.jaaaule.gzw.common.widget.PortraitView;
+import com.google.jaaaule.gzw.factory.persistence.Account;
 import com.google.jaaaule.gzw.italker.R;
 import com.google.jaaaule.gzw.italker.fragments.main.ActiveFragment;
 import com.google.jaaaule.gzw.italker.fragments.main.ContactFragment;
@@ -57,6 +59,15 @@ public class MainActivity extends BaseActivity
      */
     public static void show(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
+    }
+
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        if (!Account.isComplete()) {
+            UserActivity.show(this);
+            return false;
+        }
+        return super.initArgs(bundle);
     }
 
     @Override

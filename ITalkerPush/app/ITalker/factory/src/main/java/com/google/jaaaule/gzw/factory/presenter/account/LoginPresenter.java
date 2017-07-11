@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import com.google.jaaaule.gzw.factory.data.DataSource;
 import com.google.jaaaule.gzw.factory.data.helper.AccountHelper;
-import com.google.jaaaule.gzw.factory.model.api.LoginModel;
+import com.google.jaaaule.gzw.factory.model.api.account.LoginModel;
 import com.google.jaaaule.gzw.factory.model.db.User;
 import com.google.jaaaule.gzw.factory.persistence.Account;
 import com.google.jaaaule.gzw.factory.presenter.BasePresenter;

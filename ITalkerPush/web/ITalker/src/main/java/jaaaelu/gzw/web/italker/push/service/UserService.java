@@ -30,7 +30,7 @@ public class UserService extends BaseService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseModel<UserCard> update(UpdateInfoModel updateInfo) {
-        if (UpdateInfoModel.check(updateInfo)) {
+        if (!UpdateInfoModel.check(updateInfo)) {
             return ResponseModel.buildParameterError();
         }
 

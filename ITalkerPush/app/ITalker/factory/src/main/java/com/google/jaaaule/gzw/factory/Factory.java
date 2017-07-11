@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.jaaaule.gzw.common.app.ITalkerApplication;
 import com.google.jaaaule.gzw.factory.data.DataSource;
+import com.google.jaaaule.gzw.factory.model.api.RspModel;
 import com.google.jaaaule.gzw.factory.persistence.Account;
 import com.google.jaaaule.gzw.factory.utils.DBFlowExclusionStrategies;
 import com.raizlabs.android.dbflow.config.FlowConfig;
